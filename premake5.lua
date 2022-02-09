@@ -1,5 +1,5 @@
 workspace "project_rob"
-    startproject ""
+    startproject "demo"
     architecture "x64"
 
     configurations
@@ -8,18 +8,20 @@ workspace "project_rob"
         "release"
     }
 
-tdir = "bin/%{cfg.system}-%{cfg.buildcfg}-%{cfg.architecture}/%{prj.name}"
-odir = "bin-int/%{cfg.system}-%{cfg.buildcfg}-%{cfg.architecture}/%{prj.name}"
+tdir = "bin/%{cfg.system}-%{cfg.buildcfg}-%{cfg.architecture}"
+odir = "bin-int/%{cfg.system}-%{cfg.buildcfg}-%{cfg.architecture}"
+ptdir = tdir .. "/%{prj.name}"
+podir = odir .. "/%{prj.name}"
 
 project "erika"
     location "erika"
-    kind "StaticLib"
+    kind "SharedLib"
     language "C++"
     cppdialect "C++17"
-    staticruntime "on"
+    staticruntime "off"
 
-    targetdir(tdir)
-    objdir(odir)
+    targetdir(ptdir)
+    objdir(podir)
 
     files
     {
@@ -46,7 +48,7 @@ project "erika"
 	postbuildcommands
 	{
 		"python ../tools/_postbuild.py project=%{prj.name}",
-		"{COPY} %{prj.name}.build.meta ../" .. tdir,
+		"{COPY} %{prj.name}.build.meta ../" .. ptdir,
 	}
 
     filter "system:windows"
@@ -64,13 +66,13 @@ project "erika"
 
         defines
         {
-            "ERIKA_WIN"
+            "ERIKA_WIN",
         }
 
         postbuildcommands
         {
-            "{COPY} vendor/bin/*.dll ../../" .. tdir,
-            "{COPY} ../vendor/bin/*.dll ../" .. tdir,
+            "{COPY} vendor/bin/*.dll ../../" .. ptdir,
+            "{COPY} ../vendor/bin/*.dll ../" .. ptdir,
         }
 
     filter "system:linux"
@@ -81,7 +83,7 @@ project "erika"
 
         defines
         {
-            "ERIKA_LINUX"
+            "ERIKA_LINUX",
         }
 
     filter "configurations:debug"
@@ -90,7 +92,7 @@ project "erika"
 
         defines
         {
-            "ERIKA_DEBUG"
+            "ERIKA_DEBUG",
         }
 
     filter "configurations:release"
@@ -100,7 +102,7 @@ project "erika"
 
 		defines
         {
-            "ERIKA_RELEASE"
+            "ERIKA_RELEASE",
         }
 
 project "demo"
@@ -108,17 +110,17 @@ project "demo"
     kind "ConsoleApp"
     language "C++"
     cppdialect "C++17"
-    staticruntime "on"
+    staticruntime "off"
 
-    targetdir(tdir)
-    objdir(odir)
+    targetdir(ptdir)
+    objdir(podir)
     debugdir("data")
 
     files
     {
         "%{prj.name}/include/**.h",
         "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp"
+        "%{prj.name}/src/**.cpp",
     }
 
     sysincludedirs
@@ -137,19 +139,19 @@ project "demo"
 
     links
     {
-        "erika"
+        "erika",
     }
 
 	postbuildcommands
 	{
 		"python ../tools/_postbuild.py project=%{prj.name}",
-		"{COPY} %{prj.name}.build.meta ../" .. tdir,
+		"{COPY} %{prj.name}.build.meta ../" .. ptdir,
 	}
 
     filter "system:windows"
         systemversion "latest"
         
-        debugdir(tdir)
+        debugdir(ptdir)
 
         files
         {
@@ -163,13 +165,14 @@ project "demo"
 
         defines
         {
-            "PR_WIN"
+            "PR_WIN",
         }
 
         postbuildcommands
         {
-            "{COPY} vendor/bin/*.dll ../../" .. tdir,
-            "{COPY} ../vendor/bin/*.dll ../" .. tdir,
+            "{COPY} vendor/bin/*.dll ../../" .. ptdir,
+            "{COPY} ../vendor/bin/*.dll ../" .. ptdir,
+            "{COPY} ../" ..tdir .. "/erika/erika.dll ../" ..ptdir
         }
 
     filter "system:linux"
@@ -180,7 +183,7 @@ project "demo"
 
         defines
         {
-            "PR_LINUX"
+            "PR_LINUX",
         }
 
     filter "configurations:debug"
@@ -189,7 +192,7 @@ project "demo"
 
         defines
         {
-            "PR_DEBUG"
+            "PR_DEBUG",
         }
 
     filter "configurations:release"
@@ -199,5 +202,5 @@ project "demo"
 
 		defines
         {
-            "PR_RELEASE"
+            "PR_RELEASE",
         }

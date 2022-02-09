@@ -1,4 +1,6 @@
 
+#include "graphics/window.h"
+
 namespace erika {
-    void test(int a);
+	ERIKA_EXPORT void test(int a);
 }
