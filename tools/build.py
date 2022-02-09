@@ -6,7 +6,6 @@ import sys
 
 args = _helpers.process_args(sys.argv)
 config = _helpers.get_arg_value(args, ["config", "c"], _globals.BUILD_CFG)
-project = _helpers.get_arg_value(args, ["project", "p"], _globals.BUILD_PRJ_NAME)
 
 exit_code = 0
 if _globals.PLATFORM == "linux":

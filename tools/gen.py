@@ -12,7 +12,7 @@ print(action)
 
 exit_code = 0
 if platform == "linux":
-    process = subprocess.run(["vendor/premake/premake5", "gmake2"])
+    process = subprocess.run(["vendor/premake/premake5", action])
     exit_code = process.returncode
 elif platform == "windows":
     process = subprocess.run(["vendor/premake/premake5", action])
