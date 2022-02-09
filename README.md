@@ -25,3 +25,6 @@ A collection of my game projects, developed while developing my personal game en
 - Use the built-in command line tool `cli gen` to generate project Makefiles.  
 - Use the command `cli build` which will build the project using Make and g++ for Linux x64.  
 - Use `cli run` to run the project.  
+
+## Toolset:
+This project uses a custom set of tools written in Python for generating, building and running the projects. You can browse the `tools` folder to see what scripts are available. All scripts placed in the `tools` folder are an executable command usable by invoking `cli <filename>` other than those prefixed with and underscore `(_)`; which will be ignored and therefore can be used as utility modules.  
