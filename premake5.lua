@@ -88,9 +88,12 @@ project "demo"
 
         postbuildcommands
         {
+            "IF NOT EXIST vendor {MKDIR} vendor",
+            "IF NOT EXIST vendor/bin {MKDIR} vendor/bin",
             "{COPY} vendor/bin/*.dll ../../" .. ptdir,
+            "IF NOT EXIST ../vendor {MKDIR} ../vendor",
+            "IF NOT EXIST ../vendor/bin {MKDIR} ../vendor/bin",
             "{COPY} ../vendor/bin/*.dll ../" .. ptdir,
-            
         }
 
     filter "system:linux"
