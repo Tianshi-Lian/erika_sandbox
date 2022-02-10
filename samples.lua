@@ -60,6 +60,7 @@ project "demo"
         defines
         {
             "PR_WIN",
+            "ERIKA_WIN",
         }
 
         postbuildcommands
@@ -81,6 +82,7 @@ project "demo"
         defines
         {
             "PR_LINUX",
+            "ERIKA_LINUX",
         }
 
     filter "configurations:debug"
@@ -90,6 +92,7 @@ project "demo"
         defines
         {
             "PR_DEBUG",
+            "ERIKA_DEBUG",
         }
 
     filter "configurations:release"
@@ -100,4 +103,5 @@ project "demo"
 		defines
         {
             "PR_RELEASE",
+            "ERIKA_RELEASE"
         }
